@@ -2,15 +2,16 @@ import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 
-const db= new pg.Client({
-  user:"postgres",
-  host:"localhost",
-  database:"booknotes",
-  password: "Meenakshi@17",
-  port: 5432,
+const { Client } = require('pg');
+
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false } // Required for Render
 });
 
-db.connect();
+client.connect()
+  .then(() => console.log("Database connected!"))
+  .catch(err => console.error("Database connection error:", err));
 
 const app = express();
 const port = 3000;
