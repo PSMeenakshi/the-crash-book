@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>My Book Notes</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Books I’ve Read</h1>
+
+    <p>
+      Sort by:
+      <a href="/?sort=rating">Rating</a> |
+      <a href="/?sort=title">Title</a> |
+      <a href="/?sort=date">Date Read</a>
+    </p>
+
+    <p><a class="button" href="/books/new"> Add a new book</a></p>
+
+    <ul class="book-list">
+      <% books.forEach(book => { %>
+        <li class="book-item">
+          <% if (book.isbn) { %>
+            <img src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-M.jpg"
+                 alt="cover for <%= book.title %>"
+                 class="book-cover"
+                 onerror="this.onerror=null;this.src='/placeholder.png';">
+          <% } else { %>
+            <img src="/placeholder.png" alt="no cover" class="book-cover">
+          <% } %>
+
+          <div class="book-info">
+            <h2><%= book.title %></h2>
+            <p><em><%= book.author || "Unknown Author" %></em></p>
+            <p>⭐ Rating: <%= book.rating || "N/A" %></p>
+            <% if (book.notes) { %>
+              <p><%= book.notes %></p>
+            <% } %>
+            <% if (book.date_read) { %>
+              <p>📅 Read on: <%= book.date_read.toDateString() %></p>
+            <% } %>
+
+           <a href="/books/<%= book.id %>/edit" class="edit-button">✏️ Edit</a>
+            <form action="/books/<%= book.id %>/delete" method="POST" style="display:inline;" 
+      onsubmit="return confirm('Are you sure you want to delete <%= book.title %>?');">
+  <button type="submit" class="delete">🗑 Delete</button>
+</form>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+</body>
+</html>
