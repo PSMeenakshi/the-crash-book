@@ -1,12 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
-import pg from "pg";
+import pkg from "pg";
 
-const { Client } = require('pg');
+const { Client } = pkg;
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false } // Required for Render
+  ssl: { rejectUnauthorized: false }
 });
 
 client.connect()
